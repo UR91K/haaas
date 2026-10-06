@@ -1,0 +1,3 @@
+body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+footer { margin-top: 2rem; color: #666; }
+.error { background: #fee; border: 1px solid #c33; padding: .5rem 1rem; border-radius: .25rem; }

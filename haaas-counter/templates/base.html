@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="htmx-config" content='{"responseHandling":[{"code":"204","swap":false},{"code":"[23]..","swap":true},{"code":"[45]..","swap":true,"error":true}]}'>
+  <title>{% block title %}HAAAS counter{% endblock %}</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/vendor/htmx.min.js"></script>
+  <script src="/static/vendor/sse.js"></script>
+  <script defer src="/static/vendor/alpine.min.js"></script>
+</head>
+<body hx-headers='{"X-CSRF-Token": "{{ csrf_token }}"}' hx-ext="sse" hx-on::before-request="document.getElementById('errors').replaceChildren()">
+  <header>{% block header %}<h1>HAAAS counter</h1>{% endblock %}</header>
+  <div id="errors"></div>
+  <main>{% block main %}{% endblock %}</main>
+  <footer>{% block footer %}<small>htmx &middot; axum &middot; alpine &middot; askama &middot; sqlite</small>{% endblock %}</footer>
+</body>
+</html>
+

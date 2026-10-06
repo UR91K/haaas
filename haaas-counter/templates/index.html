@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block main %}
+<p>Everyone has clicked <span hx-ext="sse" sse-connect="/counter/events" sse-swap="count"><span id="count" data-count="{{ count }}">{{ count }}</span></span> times.</p>
+<p>You have clicked <span id="session-count">{{ session_count }}</span> times.</p>
+
+<button hx-post="/counter/increment" hx-target="#session-count" hx-swap="outerHTML" hx-disabled-elt="this">Click</button>
+
+{# Outside every htmx swap target so the Alpine component survives swaps. #}
+<div x-data="{
+       n: {{ count }},
+       petals(n) {
+         let s = '';
+         for (let i = 1; i <= Math.min(n, 80); i++)
+           s += `<ellipse rx='${20 + i}' ry='6' transform='rotate(${i * 137.5})'
+                  fill='hsl(${(i * 23 + n * 7) % 360} 70% 60% / .35)'/>`;
+         return s;
+       }
+     }"
+     @htmx:after-swap.camel.window="n = +document.getElementById('count').dataset.count">
+  <svg viewBox="-110 -110 220 220" x-html="petals(n)"></svg>
+</div>
+{% endblock %}

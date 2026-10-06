@@ -1,0 +1,23 @@
+set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
+set dotenv-load
+
+# list recipes
+default:
+    @just --list
+
+# run the server (DATABASE_URL / BIND_ADDR / COOKIE_SECURE come from .env if present)
+run:
+    cargo run
+
+# static/ is served from disk, so a browser refresh is enough for it
+# run the server, restarting on Rust, template or migration changes
+dev:
+    watchexec --restart --watch src --watch templates --watch migrations --exts rs,html,sql -- cargo run
+
+# run the tests
+test:
+    cargo test
+
+# delete the local database and sessions
+reset-db:
+    Remove-Item -ErrorAction SilentlyContinue data.db, data.db-shm, data.db-wal
